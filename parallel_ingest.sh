@@ -1,6 +1,11 @@
-n=$1
+source /usr/local/uvcdat/2.0.0/bin/setup_runtime.sh
 
+export UVCDAT_ANONYMOUS_LOG=yes
 
-/usr/bin/time $HOME/build-uvcdat/install/bin/python nc2ascii.py --file /cmip5_css02/data/cmip5/output1/MIROC/MIROC4h/rcp45/mon/land/Lmon/r1i1p1/cropFrac/1/cropFrac_Lmon_MIROC4h_rcp45_r1i1p1_200601-201512.nc --var cropFrac --timeType index --time $n | python add_head.py $n > $n.out
+for n in 2 4 8 16 24 32 64 96 120 160 240 300 360; do
 
- 
+echo -n "$n "
+
+/usr/bin/time sh run_parallel.sh $n $1 2>&1
+
+done
