@@ -11,8 +11,7 @@ import org.apache.hadoop.util.*;
 
 public class TSAverage {
 
-  public static class Map extends MapReduceBase implements Mapper<LongWritable, Text, Text, FloatWritable> {
-
+  public static class Map extends MapReduceBase implements Mapper<LongWritable, Text, IntWritable, FloatWritable> {
 
       /**
 	 Mapper averages all values across the line
@@ -27,14 +26,15 @@ public class TSAverage {
       int int_key =0;
       float total =0; 
       while (tokenizer.hasMoreTokens()) {
-	  if(count=-1)
-	     int_key = Int.parseInt(tokenizer.nextToken());
+	  if(count == -1)
+	     int_key = Integer.parseInt(tokenizer.nextToken());
 	  else
 	      total += Float.parseFloat(tokenizer.nextToken());
 	  count++;
       }
-      private final static IntWritable key_out = new IntWritable(int_key);      
-      private final static FloatWritable val = new FloatWritable(total /count );      
+      IntWritable key_out = new IntWritable(int_key);      
+      FloatWritable val = new FloatWritable(total /count );      
+
       output.collect(key_out, val);
     }
   }
@@ -57,11 +57,11 @@ public class TSAverage {
   }
 
   public static void main(String[] args) throws Exception {
-    JobConf conf = new JobConf(WordCount.class);
-    conf.setJobName("wordcount");
+    JobConf conf = new JobConf(TSAverage.class);
+    conf.setJobName("time-splice-avergae");
 
-    conf.setOutputKeyClass(Text.class);
-    conf.setOutputValueClass(IntWritable.class);
+    conf.setOutputKeyClass(IntWritable.class);
+    conf.setOutputValueClass(FloatWritable.class);
 
     conf.setMapperClass(Map.class);
     conf.setCombinerClass(Reduce.class);
