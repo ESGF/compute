@@ -14,7 +14,6 @@ public class TSAverage {
   public static class Map extends MapReduceBase implements Mapper<LongWritable, Text, Text, FloatWritable> {
 
 
-
       /**
 	 Mapper averages all values across the line
        */
@@ -31,7 +30,7 @@ public class TSAverage {
 	  if(count=-1)
 	     int_key = Int.parseInt(tokenizer.nextToken());
 	  else
-	      total += Float.parseFloa(tokenizer.nextToken());
+	      total += Float.parseFloat(tokenizer.nextToken());
 	  count++;
       }
       private final static IntWritable key_out = new IntWritable(int_key);      
@@ -41,12 +40,19 @@ public class TSAverage {
   }
 
     public static class Reduce extends MapReduceBase implements Reducer<IntWritable, FloatWritable, IntWritable, FloatWritable> {
-    public void reduce(IntWritable key, Iterator<FloatWritable> values, OutputCollector<Text, FloatWritable> output, Reporter reporter) throws IOException {
-      int sum = 0;
+
+	/**
+	   reducer averages all keys
+	 */
+    public void reduce(IntWritable key, Iterator<FloatWritable> values, OutputCollector<IntWritable, FloatWritable> output, Reporter reporter) throws IOException {
+     
+	float sum = 0;
+	int count = 0; 
       while (values.hasNext()) {
         sum += values.next().get();
+	count++;
       }
-      output.collect(key, new IntWritable(sum));
+      output.collect(key, new FloatWritable(sum / count));
     }
   }
 
