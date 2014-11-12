@@ -2,10 +2,23 @@ source /usr/local/uvcdat/2.0.0/bin/setup_runtime.sh
 
 export UVCDAT_ANONYMOUS_LOG=yes
 
-for n in 2 4 8 16 24 32 64 96 120 160 240 300 360; do
 
-echo -n "$n "
+ts_per_file=120
 
-/usr/bin/time sh run_parallel.sh $n $1 2>&1
+tot_ts=360
+
+
+div=$(( $tot_ts / $ts_per_file  ))
+
+var=ts
+
+script=mk_tab.py
+
+
+
+for n in `seq 1 $div` ; do
+
+    /usr/bin/time sh run_parallel.sh $n $ts_per_file $1 $script $var  2>&1
+
 
 done

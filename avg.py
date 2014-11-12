@@ -1,6 +1,6 @@
 import cdms2,sys,os,cdutil,MV2
 f=cdms2.open(sys.argv[1])
-V=f["clt"]
+V=f["ts"]
 
 OUT = MV2.zeros((V.shape[0],))
 

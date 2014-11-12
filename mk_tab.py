@@ -1,6 +1,5 @@
 import sys
 
-if 
 
 if (len(sys.argv) > 2):
 
@@ -16,7 +15,7 @@ for line in sys.stdin:
 
     v_count = 0
     for val in parts:
-        print key + " " + str(l_count) + " " + str(v_count) + " " val 
+        print key + " " + str(l_count) + " " + str(v_count) + " " + val 
         v_count = v_count + 1
     l_count = l_count + 1
 
