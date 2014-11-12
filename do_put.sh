@@ -1,0 +1,1 @@
+hadoop fs -put /dev/shm/tmp/* avg-data-in-tab/
